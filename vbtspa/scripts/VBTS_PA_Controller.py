@@ -24,7 +24,8 @@ LOG_LEVEL = logging.DEBUG
 LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 
 #used variables
-fake = False
+#fake = False
+fake = True
 
 PA_On = False
 PA_Time = 0

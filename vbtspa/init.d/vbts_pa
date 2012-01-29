@@ -36,13 +36,13 @@ should_start() {
 
 case "$1" in
   start)
-    echo "Starting BM ChatRoulette Server..."
+    echo "Starting VBTS Power Amplifier Controller..."
     should_start
     $SSD $SSDARGS $STARTARGS --start -- $ARGS
     ;;
 
   stop)
-    echo "Making sure BM ChatRoulette Server stops..."
+    echo "Making sure VBTS Power Amplifier Controller stops..."
     $SSD $SSDARGS --stop || true
     ;;
 
