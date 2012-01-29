@@ -3,6 +3,7 @@
 from SimpleXMLRPCServer import SimpleXMLRPCServer
 from SimpleXMLRPCServer import SimpleXMLRPCRequestHandler
 import getopt
+import sys
 
 PORT = 8080
 SERVER = "localhost"
@@ -26,7 +27,7 @@ def usage():
 
 for o,a in opts:
     if o in ("-f", "--fake"):
-        fake = False
+        fake = True
     else:
         usage()
 
@@ -40,17 +41,19 @@ serial_con = None
 
 try:
     server = SimpleXMLRPCServer((SERVER, PORT),
-                                requestHandler=RequestHandler)
+                                requestHandler=RequestHandler,
+                                allow_none=True)
     server.register_introspection_functions()
 except:
     print ("Server failed to open")
     exit(1)
 
-try:
-    serial_con = serial.Serial(SERIAL_LOC, SERIAL_BR)
-except:
-    print ("Serial port failed to open")
-    exit(1)
+if (not fake):
+    try:
+        serial_con = serial.Serial(SERIAL_LOC, SERIAL_BR)
+    except:
+        print ("Serial port failed to open")
+        exit(1)
 
 #update functions
 def on():

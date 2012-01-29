@@ -7,6 +7,9 @@ setup(name="vbtspa",
       author_email="kheimerl@cs.berkeley.edu",
       url="http://cs.berkeley.edu/~kheimerl",
       license='bsd',
-      scripts=["scripts/BM_Get_Condition.py",
-               ],
+      scripts=[
+        "scripts/VBTS_PA_Controller.py",
+        "scripts/VBTS_PA_On.py",
+        "scripts/VBTS_PA_Off.py",
+        ],
       )
