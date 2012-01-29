@@ -7,4 +7,4 @@ SERVER = "localhost"
 
 s = xmlrpclib.ServerProxy('http://' + SERVER + ":" + str(PORT))
 
-s.on()
+s.off()
