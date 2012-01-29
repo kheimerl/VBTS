@@ -1,0 +1,8 @@
+#!/bin/sh
+if [ -x "/etc/init.d/vbts_pa" ]; then
+	if [ -x "`which invoke-rc.d 2>/dev/null`" ]; then
+		invoke-rc.d vbts_pa stop || exit $?
+	else
+		/etc/init.d/vbts_pa stop || exit $?
+	fi
+fi

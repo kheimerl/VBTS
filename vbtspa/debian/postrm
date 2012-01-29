@@ -1,0 +1,4 @@
+#!/bin/sh
+update-rc.d vbts_pa remove >/dev/null || true
+# || exit $?
+

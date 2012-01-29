@@ -1,0 +1,8 @@
+Package: vbts-pa-controller
+Version: 0.0.1
+Architecture: all
+Essential: no
+Provides: vbtspa
+Depends: python, python-serial
+Maintainer: Kurtis Heimerl <kheimerl@cs.berkeley.edu>
+Description: Controller for the VBTS Power Amplifier

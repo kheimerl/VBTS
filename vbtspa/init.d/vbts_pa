@@ -1,0 +1,53 @@
+#!/bin/sh
+#
+# 		Start the VBTS Power Amplifier Controller
+#
+# The variables below are NOT to be changed.  They are there to make the
+# script more readable.
+#
+# This script was modified from the apache rc script
+
+NAME=VBTS_PA_Controller.py
+DAEMON=/usr/local/bin/$NAME
+ARGS=""
+PIDFILE=/var/run/$NAME.pid
+SSD=`which start-stop-daemon`
+#we should use this eventually, for security
+SSDARGS="-p $PIDFILE --startas $DAEMON"
+STARTARGS="-b -m"
+ENV="env -i LANG=C PATH=/bin:/usr/bin:/usr/local/bin"
+
+test $DEBIAN_SCRIPT_DEBUG && set -v -x
+
+trap "" 1
+
+cd /
+
+should_start() {
+    if [ ! -x $DAEMON ]; then
+	echo "$NAME is not executable, not starting"
+	exit 0
+    fi
+    if test $SSD = ""; then
+	echo "You're not running this as root, no start-stop-daemon found"
+	exit 0
+    fi
+}
+
+case "$1" in
+  start)
+    echo "Starting BM ChatRoulette Server..."
+    should_start
+    $SSD $SSDARGS $STARTARGS --start -- $ARGS
+    ;;
+
+  stop)
+    echo "Making sure BM ChatRoulette Server stops..."
+    $SSD $SSDARGS --stop || true
+    ;;
+
+  *)
+    echo "Usage: /etc/init.d/$NAME {start|stop}"
+    exit 1
+    ;;
+esac
