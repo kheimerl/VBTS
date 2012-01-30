@@ -7,6 +7,7 @@ import sys
 import threading
 import time
 import logging
+import signal
 
 PORT = 8080
 SERVER = "localhost"
@@ -14,8 +15,8 @@ SERVER = "localhost"
 SERIAL_LOC = "/dev/ttyACM0"
 SERIAL_BR = 9600
 
-ON_CMD = "O0=1"
-OFF_CMF = "O0=0"
+ON_CMD = "O0=1\r"
+OFF_CMD = "O0=0\r"
 
 UPTIME = 60 * 5
 
@@ -24,8 +25,8 @@ LOG_LEVEL = logging.DEBUG
 LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 
 #used variables
-#fake = False
-fake = True
+fake = False
+#fake = True
 
 PA_On = False
 PA_Time = 0
@@ -43,13 +44,15 @@ def usage():
 for o,a in opts:
     if o in ("-f", "--fake"):
         fake = True
-        import serial
     else:
         usage()
 
 logging.basicConfig(filename=LOG_LOC, 
                     level=LOG_LEVEL, 
                     format=LOG_FORMAT)
+
+if (not fake):
+    import serial
 
 logger = logging.getLogger("VBTS_PA_Controller")
 
@@ -72,7 +75,7 @@ except:
 
 if (not fake):
     try:
-        serial_con = serial.Serial(SERIAL_LOC, SERIAL_BR)
+        serial_con = serial.Serial(SERIAL_LOC)
         logger.info("Serial connection established")
     except:
         logger.warn("Serial port failed to open")
@@ -83,6 +86,7 @@ if (not fake):
 def on():
     logger.info("Turning PA on")
     serial_con.write(ON_CMD)
+    serial_con.flush()
 
 def fake_on():
     logger.info("Fake turning PA on")
@@ -91,6 +95,7 @@ def fake_on():
 def off():
     logger.info("Turning PA off")
     serial_con.write(OFF_CMD)
+    serial_con.flush()
 
 def fake_off():
     logger.info("Fake turning PA off")
@@ -151,6 +156,14 @@ class off_thread(threading.Thread):
 #register functions
 server.register_function(update_pa_on, 'on')
 server.register_function(update_pa_off, 'off')
+
+#lastly, catch exit function
+def quit_signal():
+    logger.info("Shutting down")
+    serial_con.close()
+    server.shutdown()
+
+signal.signal(signal.SIGTERM, quit_signal)
 
 t = off_thread()
 t.start()

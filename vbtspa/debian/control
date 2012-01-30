@@ -1,5 +1,5 @@
 Package: vbts-pa-controller
-Version: 0.0.1
+Version: 0.0.2
 Architecture: all
 Essential: no
 Provides: vbtspa
