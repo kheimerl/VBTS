@@ -1,0 +1,6 @@
+
+WakeupBTS application firmware.
+
+The micocontroller (MSP430), after SPI setup, CCxxx setup and interrupts, goes into
+LPM3 mode. When button is pressed, ISR transmits packet over GSM band (900.2MHz)
+
