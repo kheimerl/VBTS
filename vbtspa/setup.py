@@ -8,8 +8,9 @@ setup(name="vbtspa",
       url="http://cs.berkeley.edu/~kheimerl",
       license='bsd',
       scripts=[
-        "scripts/VBTS_PA_Controller.py",
+        #"scripts/VBTS_PA_Controller.py",
         "scripts/VBTS_PA_On.py",
         "scripts/VBTS_PA_Off.py",
+        "scripts/VBTS_PA_Status.py",
         ],
       )
