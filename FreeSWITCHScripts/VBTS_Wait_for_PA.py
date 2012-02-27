@@ -31,7 +31,7 @@ import os
 import time
 from datetime import datetime, timedelta
 
-WAIT = 10
+WAIT = 30
 
 def runtime(arg1):
     (fromm, ip, port, to) = arg1.split("|")
@@ -49,6 +49,7 @@ def handler(session, args):
     session.answer()
     #session.execute("playback", "tone_stream://path=${base_dir}/conf/tetris.ttml;loops=1")
     session.hangup()
+    os.system('/usr/local/bin/VBTS_PA_On.py')
     #runs the "runtime" function above in another thread
     new_api_obj = API()
     #this will need to be changed when we use a real DID
