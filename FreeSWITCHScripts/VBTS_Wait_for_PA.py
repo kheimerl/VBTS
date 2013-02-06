@@ -31,15 +31,16 @@ import os
 import time
 from datetime import datetime, timedelta
 
-WAIT = 30
+MIN_WAIT = 30
+PING_TIME = 5
 
 def runtime(arg1):
     (fromm, ip, port, to) = arg1.split("|")
-    time.sleep(WAIT) #this is just to test that we are actually
+    time.sleep(MIN_WAIT) #this is just to test that we are actually
                        # running in a separate thread.  
-    consoleLog("info", "%s@%s:%s called %s %d second ago\n" % (fromm, ip, port, to, WAIT))
+    consoleLog("info", "%s@%s:%s called %s %d second ago\n" % (fromm, ip, port, to, MIN_WAIT))
     new_api_obj = API()
-    new_api_obj.executeString("originate sofia/internal/%s@%s:%s %s" % (fromm, ip, port, to))
+    new_api_obj.executeString("originate {origination_caller_id_number=%s}sofia/internal/%s@%s:%s %s" % (to, fromm, ip, port, to))
 
 def chat(message, args):
     args = args.split('|')
