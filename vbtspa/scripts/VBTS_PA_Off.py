@@ -13,4 +13,4 @@ args = parser.parse_args()
 
 s = xmlrpclib.ServerProxy('http://' + args.dest + ":" + args.port)
 
-s.off()
+s.offWithReason("From CLI")
