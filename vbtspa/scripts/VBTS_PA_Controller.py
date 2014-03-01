@@ -85,21 +85,27 @@ if (not fake):
 #update functions
 def on():
     logger.info("Turning PA on")
+    print ("Turning PA on")
     serial_con.write(ON_CMD)
     serial_con.flush()
 
 def fake_on():
     logger.info("Fake turning PA on")
-    print ("Turning on")
+    print ("Fake turning on")
 
 def off():
     logger.info("Turning PA off")
+    print ("Turning PA off")
     serial_con.write(OFF_CMD)
     serial_con.flush()
 
 def fake_off():
     logger.info("Fake turning PA off")
-    print ("Turning off")
+    print ("Fake turning off")
+
+def update_pa_on_reason(reason):
+    print (reason)
+    update_pa_on()
 
 #eventually add locks to these
 def update_pa_on():
@@ -115,6 +121,10 @@ def update_pa_on():
         on()
     PA_Lock.release()
     
+def update_pa_off_reason(reason):
+    print (reason)
+    update_pa_off()
+
 def update_pa_off():
     global PA_On
     global PA_Time
@@ -155,7 +165,9 @@ class off_thread(threading.Thread):
 
 #register functions
 server.register_function(update_pa_on, 'on')
+server.register_function(update_pa_on_reason, 'onWithReason')
 server.register_function(update_pa_off, 'off')
+server.register_function(update_pa_off_reason, 'offWithReason')
 
 #lastly, catch exit function
 def quit_signal():
